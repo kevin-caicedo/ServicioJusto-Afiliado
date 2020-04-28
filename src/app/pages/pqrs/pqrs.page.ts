@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PqrsModel } from '../../models/pqrs.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-pqrs',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PqrsPage implements OnInit {
 
-  constructor() { }
+  pqrs: PqrsModel;
+
+  constructor() {
+
+    this.pqrs = new PqrsModel();
+
+  }
 
   ngOnInit() {
+  }
+
+  nuevoPqrs( form: NgForm ){
+    console.log('enviando PQRS');
   }
 
 }

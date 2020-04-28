@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AfiliadoModel } from '../../models/afiliado.model';
+
 
 @Component({
   selector: 'app-registro',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistroPage implements OnInit {
 
-  constructor() { }
+  customPopoverOptions: any = {
+    header: 'Servicio',
+    subHeader: 'Selecciona tu habilidad'
+  };
+
+  afiliado: AfiliadoModel;
+  constructor() {
+    this.afiliado = new AfiliadoModel();
+  }
 
   ngOnInit() {
+  }
+
+  onSubmit( form: NgForm ){
+
+    console.log(this.afiliado.Habilidad);
+
+    console.log(form);
+
   }
 
 }

@@ -13,33 +13,38 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
     {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
+      title: 'Registro',
+      url: 'registro',
+      icon: 'add-circle'
     },
     {
-      title: 'Outbox',
-      url: '/folder/Outbox',
+      title: 'Iniciar sesión',
+      url: 'inicio-sesion',
+      icon: 'people'
+    },
+    {
+      title: 'Peticiones',
+      url: 'peticiones',
       icon: 'paper-plane'
     },
     {
-      title: 'Favorites',
-      url: '/folder/Favorites',
-      icon: 'heart'
+      title: 'Datos personales',
+      url: 'datos-personales',
+      icon: 'person'
     },
     {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
-    },
-    {
-      title: 'Trash',
-      url: '/folder/Trash',
+      title: 'Cerrar cuenta',
+      url: 'cerrar-cuenta',
       icon: 'trash'
     },
     {
-      title: 'Spam',
-      url: '/folder/Spam',
+      title: 'Enviar PQRS',
+      url: 'pqrs',
+      icon: 'chatbox'
+    },
+    {
+      title: 'Cerrar sesión',
+      url: '',
       icon: 'warning'
     }
   ];
@@ -65,5 +70,18 @@ export class AppComponent implements OnInit {
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+  }
+
+
+
+  prueba( nombre: string ){
+
+    if( nombre == 'Cerrar sesión'){
+      this.cerrarSesion()
+    }
+  }
+
+  cerrarSesion(){
+    console.log("Cerrando sesión");
   }
 }

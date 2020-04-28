@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AfiliadoModel } from '../../models/afiliado.model';
 
 @Component({
   selector: 'app-datos-personales',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DatosPersonalesPage implements OnInit {
 
+  afiliado: AfiliadoModel = new AfiliadoModel();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSubmit( form: NgForm ){
+    console.log('actualizando datos personales');
+
   }
 
 }

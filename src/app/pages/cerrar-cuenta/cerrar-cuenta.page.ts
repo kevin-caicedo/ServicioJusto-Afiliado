@@ -12,4 +12,8 @@ export class CerrarCuentaPage implements OnInit {
   ngOnInit() {
   }
 
+  cerrarCuenta(){
+    console.log('Cerrando cuenta');
+  }
+
 }
