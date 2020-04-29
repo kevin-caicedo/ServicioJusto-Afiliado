@@ -88,7 +88,7 @@
         *ngIf="f.submitted && f.controls['email'].errors"
         class="text-danger">El correo es obligatorio</span>
         <ion-label position="floating">Correo</ion-label>
-        <ion-input type="email" name="email" [(ngModel)]="afiliado.email" required email></ion-input>
+        <ion-input type="email" name="email" [(ngModel)]="afiliado.email" required email disabled></ion-input>
       </ion-item>
     
       <ion-item>
@@ -97,10 +97,12 @@
                 *ngIf="f.submitted && f.controls['password'].errors"
                 class="text-danger">Al menos 6 caracteres</span>
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" name="password" [(ngModel)]="afiliado.password"  minlength="6" required></ion-input>
+        <ion-input type="password" name="password" [(ngModel)]="afiliado.password"  minlength="6"  disabled required></ion-input>
       </ion-item>
     
-      <ion-button expand="block" class="ion-padding" type="submit">Registrarme</ion-button>
+      <ion-button expand="block" class="ion-padding" type="submit">Actualizar</ion-button>
+
+      <img [src]="afiliado.fotoPerfil">
     </ion-list>
   </form>
   

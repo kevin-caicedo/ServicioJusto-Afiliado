@@ -2,11 +2,11 @@
 export class AfiliadoModel{
     id: string;
     Apellido: string;
-    Calificacion: string;
+    Calificacion: number;
     Direccion: string;
     email: string;
     FechaNacimiento: Date;
-    Habilidad: string;
+    Habilidad: any;
     Nombre: string;
     password: string;
     Telefono: string;

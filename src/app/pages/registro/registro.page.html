@@ -66,7 +66,7 @@
         *ngIf="f.submitted && f.controls['habilidad'].errors"
         class="text-danger">La habilidad es obligatorio</span>
         <ion-label>Habilidad</ion-label>
-        <ion-select value="Cuidado de adulto mayor"  multiple="true" okText="Ok" cancelText="Cancelar" [(ngModel)]="afiliado.Habilidad" name="habilidad" required >
+        <ion-select multiple="true" okText="Ok" cancelText="Cancelar" [(ngModel)]="afiliado.Habilidad" name="habilidad" required>
           <ion-select-option value="Aseo General">Aseo General</ion-select-option>
           <ion-select-option value="Plomería">Plomería</ion-select-option>
           <ion-select-option value="Cuidado de adulto mayor">Cuidado de adulto mayor</ion-select-option>

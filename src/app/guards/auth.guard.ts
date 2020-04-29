@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+
+  constructor(private auth: AuthService,
+    private router: Router){
+  
+  }
+
+    canActivate( ): boolean {
+    
+    if(this.auth.estaAutenticado()){
+      return true;
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Nos has iniciado sesión',
+      })
+      this.router.navigateByUrl('/inicio-sesion');
+      return false;
+    }
   }
   
 }

@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetallesServicioPage implements OnInit {
 
+  codigo: string;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  codigoExiste(){
+    console.log('Comprueba que el código existe ' + this.codigo);
+  }
+
+  finalizarServicio(){
+    console.log('Finalizando servicio');
   }
 
 }
