@@ -8,20 +8,33 @@
 </ion-header>
 
 <ion-content  [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
   
-  <ion-list>
+  <ion-list *ngFor="let servicio of servicioArray; let i = index">
     
     <ion-item>
       <ion-avatar slot="start">
-        <img src="../../../assets/icon/servicio.jpg">
+        <img [src]="servicio.imagen">
       </ion-avatar>
       <ion-label>
-        <h2>Servicio ---</h2>
-        <h3>I'm a big deal</h3>
-        <ion-button color="primary" [routerLink]="[ '/detalles-servicio', nuevo ]">
+        <h2>Servicio {{ servicio.nombreServicio }}</h2>
+        <h3>
+          <ion-icon name="locate-outline"></ion-icon>
+          {{ servicio.direccion }}
+        </h3>
+        <!-- [routerLink]="[ '/detalles-servicio', servicio.id ]"  -->
+        <ion-button color="primary" (click)="aceptarServicio( servicio )">
           Aceptar
         </ion-button>
-        <ion-button color="danger">
+        <ion-button color="danger" (click)="borrarElemento( i )">
           Rechazar
         </ion-button>
       </ion-label>

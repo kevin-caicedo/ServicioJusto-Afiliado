@@ -1,0 +1,16 @@
+
+export class ServicioModel {
+
+    id: string; 
+    nombreServicio: string;
+    imagen: string;
+    descripcion: string;
+    precioMinuto: number;
+
+    constructor(){
+        this.precioMinuto = 0;
+    }
+
+    direccion: string;
+
+}

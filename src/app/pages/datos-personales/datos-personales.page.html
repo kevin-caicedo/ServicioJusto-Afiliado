@@ -74,7 +74,9 @@
       </ion-item>
 
       <ion-item>
-        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        <ion-avatar slot="start">
+          <img [src]="afiliado.fotoPerfil">
+        </ion-avatar>
         <span 
         *ngIf="f.submitted && f.controls['foto'].errors"
         class="text-danger">La foto es obligatorio</span>
@@ -101,8 +103,6 @@
       </ion-item>
     
       <ion-button expand="block" class="ion-padding" type="submit">Actualizar</ion-button>
-
-      <img [src]="afiliado.fotoPerfil">
     </ion-list>
   </form>
   

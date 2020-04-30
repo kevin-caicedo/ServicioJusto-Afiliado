@@ -1,14 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { PeticionModel } from '../models/peticiones.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PeticionesService {
 
-  private url = 'https://identitytoolkit.googleapis.com/v1/accounts';
   private apikey = 'AIzaSyBar45be1zu0zqw5ZlznwH3qS9Dfcc2Cls';
   private urlDatabase = 'https://proyecto-serviciojusto.firebaseio.com';
 
   constructor( private http: HttpClient ) { }
+
+  
+  /**
+   * Método que trae los datos de las peticiones
+   */
+  getPeticiones(){
+    return this.http.get(`${ this.urlDatabase }/Peticiones.json`)
+      .pipe(
+        map( this.crearArregloServicio )
+      ); 
+  }
+
+  private crearArregloServicio( servicioObj: object){
+    
+    const servicioArray: PeticionModel[] = [];
+
+    if( servicioObj === null ){
+      return [];
+    }
+
+    Object.keys( servicioObj ).forEach( key =>{
+
+      const servicio: PeticionModel = servicioObj[key];
+      servicio.id = key;
+
+      servicioArray.push( servicio );
+    });
+
+    return servicioArray;
+  }
+
+  /**
+   * Método que trae los datos de un solo servicio
+   * @author Kevin Caicedo
+   * @param id 
+   */
+  getServicio( id: string ){
+    return this.http.get(`${ this.urlDatabase }/Servicio/${ id }.json`);
+  }
+
+  getPeticion( id: string ){
+    return this.http.get(`${ this.urlDatabase }/Peticiones/${ id }.json`);
+  }
+
+  actualizarPeticion( peticion: PeticionModel ){
+
+    const peticionTemp = {
+      ...peticion
+    }
+
+    delete peticionTemp.id;
+
+    return this.http.put(`${ this.urlDatabase }/Peticiones/${ peticion.id }.json`, peticionTemp);
+
+
+  }
 }

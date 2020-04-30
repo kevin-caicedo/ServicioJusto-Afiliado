@@ -15,7 +15,7 @@
       <ion-icon name="ellipsis-horizontal-outline" slot="end"></ion-icon>
       <ion-label class="ion-text-wrap">
         <h2>Servicio</h2>
-        <p>Nombre del servicio</p>
+        <p>{{ servicio.nombreServicio }}</p>
       </ion-label>
     </ion-item>
 
@@ -23,7 +23,7 @@
       <ion-icon name="location-outline" slot="end"></ion-icon>
       <ion-label class="ion-text-wrap">
         <h2>Dirección</h2>
-        <p>Ubicacion de persona</p>
+        <p>{{ peticion.direccion }}</p>
       </ion-label>
     </ion-item>
 
@@ -31,7 +31,7 @@
       <ion-icon name="time-outline" slot="end"></ion-icon>
       <ion-label class="ion-text-wrap">
         <h2>Duración</h2>
-        <p>Tiempo</p>
+        <p>2 horas</p>
       </ion-label>
     </ion-item>
 
@@ -44,10 +44,10 @@
     </ion-item>
 
     <ion-item>
-      <ion-icon name="cash-outline" slot="end"></ion-icon>
+      <ion-icon name="wallet-outline" slot="end"></ion-icon>
       <ion-label class="ion-text-wrap">
         <h2>Total</h2>
-        <p>$1000</p>
+        <p>{{ servicio.precioMinuto * 120 }}</p>
       </ion-label>
     </ion-item>
 
