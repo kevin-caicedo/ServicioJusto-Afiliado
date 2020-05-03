@@ -24,8 +24,6 @@ export class PeticionesPage implements OnInit {
                 private router: Router ) { }
 
   ngOnInit() {
-
-
     this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe( (resp:AfiliadoModel)=>{
       this.afiliado = resp
 
@@ -73,10 +71,9 @@ export class PeticionesPage implements OnInit {
   }
 
   doRefresh(event: any) {
-    console.log('Begin async operation');
+    location.reload();
 
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }

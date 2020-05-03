@@ -22,11 +22,11 @@ const routes: Routes = [
   },
   {
     path: 'peticiones',
-    loadChildren: () => import('./pages/peticiones/peticiones.module').then( m => m.PeticionesPageModule)
+    loadChildren: () => import('./pages/peticiones/peticiones.module').then( m => m.PeticionesPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'cerrar-cuenta',
-    loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule)
+    loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'datos-personales',
@@ -34,11 +34,15 @@ const routes: Routes = [
   },
   {
     path: 'pqrs',
-    loadChildren: () => import('./pages/pqrs/pqrs.module').then( m => m.PqrsPageModule)
+    loadChildren: () => import('./pages/pqrs/pqrs.module').then( m => m.PqrsPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'detalles-servicio/:id',
-    loadChildren: () => import('./pages/detalles-servicio/detalles-servicio.module').then( m => m.DetallesServicioPageModule)
+    loadChildren: () => import('./pages/detalles-servicio/detalles-servicio.module').then( m => m.DetallesServicioPageModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'servicios-realizados',
+    loadChildren: () => import('./pages/servicios-realizados/servicios-realizados.module').then( m => m.ServiciosRealizadosPageModule), canActivate: [AuthGuard]
   }
 ];
 

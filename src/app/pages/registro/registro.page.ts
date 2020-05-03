@@ -40,7 +40,7 @@ export class RegistroPage implements OnInit {
     Swal.showLoading();
 
     this.afiliado.estado = false;
-    this.afiliado.Calificacion = 5;
+    this.afiliado.Calificacion = {valor: 5, contador: 0};
 
     this.registro.nuevoAfiliado( this.afiliado ).subscribe( resp =>{
       this.afiliado.typeIdAfiliado = resp['localId'];
@@ -55,6 +55,8 @@ export class RegistroPage implements OnInit {
       })
       Swal.close();
       this.router.navigateByUrl('/peticiones');
+      setTimeout(() => location.reload(), 1000);
+
 
     }, (err)=>{
       Swal.fire({

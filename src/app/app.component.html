@@ -4,7 +4,7 @@
       <ion-content>
         <ion-list id="inbox-list">
           <img src="../assets/icon/servicio.jpg" height="80px" width="80px" style="padding-left: 10px;">
-          <ion-list-header>Bienvenido</ion-list-header>
+          <ion-list-header>Bienvenido Afiliado</ion-list-header>
           <ion-note>Servicio Justo</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" (click)="prueba( p.title )">
@@ -14,15 +14,6 @@
             </ion-item>
           </ion-menu-toggle>
 
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

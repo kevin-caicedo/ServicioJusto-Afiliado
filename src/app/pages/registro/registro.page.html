@@ -12,6 +12,17 @@
   <form (ngSubmit)="onSubmit( f )"
           #f="ngForm" >
     <ion-list>
+
+      <ion-item>
+        <ion-icon name="card-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['cedula'].errors"
+        class="text-danger">La cédula es obligatorio</span>
+        <ion-label position="floating">Cedula</ion-label>
+        <ion-input  name="cedula" [(ngModel)]="afiliado.Cedula" minlength="9" required></ion-input>
+      </ion-item>
+
+
       <ion-item>
         <ion-icon name="person-outline" slot="start"></ion-icon>
         <span 

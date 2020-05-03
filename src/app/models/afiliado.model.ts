@@ -2,7 +2,8 @@
 export class AfiliadoModel{
     id: string;
     Apellido: string;
-    Calificacion: number;
+    Calificacion: any;
+    Cedula: string;
     Direccion: string;
     email: string;
     FechaNacimiento: Date;

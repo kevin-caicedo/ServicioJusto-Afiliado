@@ -4,6 +4,9 @@ import { PeticionesService } from '../../services/peticiones.service';
 import { PeticionModel } from '../../models/peticiones.model';
 import { ServicioModel } from '../../models/servicio.model';
 import Swal from 'sweetalert2';
+import { AfiliadoModel } from '../../models/afiliado.model';
+import { AuthService } from '../../services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detalles-servicio',
@@ -15,11 +18,15 @@ export class DetallesServicioPage implements OnInit {
   id: string;
   peticion: PeticionModel = new PeticionModel();
   servicio: ServicioModel = new ServicioModel();
+  afiliado: AfiliadoModel = new AfiliadoModel();
+  nuevaDireccion: string;
   codigo: number;
 
   constructor(  private activatedRoute: ActivatedRoute,
                 private _peticion: PeticionesService,
-                private router: Router) { }
+                private _auth: AuthService,
+                private router: Router,
+                public alertController: AlertController) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -126,10 +133,130 @@ export class DetallesServicioPage implements OnInit {
             title: 'Muchas gracias por su LABOR',
             text: `Gracias!!`
           });
-          this.router.navigate(['/peticiones']);
+
+          this.presentAlertRadio();
+
+          localStorage.removeItem('InicioTrabajo');
+          setTimeout(() => this.router.navigate(['/peticiones']), 1500);
+          
+          setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
+            this.peticion = resp;
+
+            this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe((resp: AfiliadoModel)=>{
+              this.afiliado = resp;
+
+              this.calificando( this.peticion, this.afiliado )
+              
+            });
+          }), 60000);
+
         }
       });
     });
   }
 
+  calificacion: number;
+  /**
+   * Método que va a realizar la calificación del afiliado.
+   * @author Kevin Caicedo
+   * @param peticionC 
+   * @param afiliadoC 
+   */
+  calificando( peticionC: PeticionModel, afiliadoC: AfiliadoModel ){
+
+    if( peticionC.calificacionAfiliado ){
+      
+      afiliadoC.id = localStorage.getItem('afiliadoId');
+
+      if( afiliadoC.Calificacion.contador == 0){
+
+        this.calificacion = (peticionC.calificacionAfiliado + afiliadoC.Calificacion.valor) / 2;
+  
+        afiliadoC.Calificacion = { contador: 2, valor: this.calificacion }
+
+        this._auth.actualizaPerfil( afiliadoC ).subscribe();      
+      }else{
+  
+        this.calificacion = (afiliadoC.Calificacion.valor * afiliadoC.Calificacion.contador + peticionC.calificacionAfiliado)/
+                            (afiliadoC.Calificacion.contador + 1)
+  
+        afiliadoC.Calificacion = { contador: afiliadoC.Calificacion.contador + 1, valor: this.calificacion }
+  
+        this._auth.actualizaPerfil( afiliadoC ).subscribe();      
+      }
+
+    }
+  }
+
+  async presentAlertRadio() {
+    const alert = await this.alertController.create({
+      header: `Calificando a ${ this.afiliado.Nombre } `,
+      inputs: [
+        {
+          name: 'Pésimo',
+          type: 'radio',
+          label: 'Pésimo',
+          value: 1,
+          checked: true
+        },
+        {
+          name: 'Malo',
+          type: 'radio',
+          label: 'Malo',
+          value: 2
+        },
+        {
+          name: 'Regular',
+          type: 'radio',
+          label: 'Regular',
+          value: 3
+        },
+        {
+          name: 'Bueno',
+          type: 'radio',
+          label: 'Bueno',
+          value: 4
+        },
+        {
+          name: 'Excelente',
+          type: 'radio',
+          label: 'Excelente',
+          value: 5
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Ok',
+          handler: ( valor ) => {
+            this.peticion.calificacionUsuario = valor;
+            this._peticion.actualizarPeticion( this.peticion ).subscribe((resp: PeticionModel)=>{
+
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              
+              Toast.fire({
+                icon: 'success',
+                title: 'Tu calificacion ha sido guardada'
+              })
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
