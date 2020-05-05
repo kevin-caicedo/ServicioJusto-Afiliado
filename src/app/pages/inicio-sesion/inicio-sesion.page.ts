@@ -46,6 +46,7 @@ export class InicioSesionPage implements OnInit {
 
         this.auth.getUnAfiliado();
         this.router.navigateByUrl('/peticiones');
+        setTimeout(() => location.reload(), 1000);
 
         
     }, (err)=>{

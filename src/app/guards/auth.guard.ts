@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
         text: 'Nos has iniciado sesión',
       })
       this.router.navigateByUrl('/inicio-sesion');
+      location.reload();
       return false;
     }
   }

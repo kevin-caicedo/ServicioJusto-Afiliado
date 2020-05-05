@@ -14,4 +14,5 @@ export class AfiliadoModel{
     estado: boolean;
     fotoPerfil: string;
     typeIdAfiliado: string;
+    celular: string;
 }

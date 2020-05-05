@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AfiliadoModel } from '../../models/afiliado.model';
 import { AuthService } from '../../services/auth.service';
 import { AlertController } from '@ionic/angular';
+import { UsuarioModel } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-detalles-servicio',
@@ -19,6 +20,8 @@ export class DetallesServicioPage implements OnInit {
   peticion: PeticionModel = new PeticionModel();
   servicio: ServicioModel = new ServicioModel();
   afiliado: AfiliadoModel = new AfiliadoModel();
+  usuarioArray: UsuarioModel[] = [];
+  usuario: UsuarioModel = new UsuarioModel();
   nuevaDireccion: string;
   codigo: number;
 
@@ -42,9 +45,20 @@ export class DetallesServicioPage implements OnInit {
       this._peticion.getServicio( this.peticion.idServicio ).subscribe( (resp: ServicioModel)=>{
         this.servicio = resp
       });
-    });
-  }
 
+      this._peticion.getUsuarios().subscribe( (resp)=>{
+
+        this.usuarioArray = resp;
+        for( let item of this.usuarioArray ){
+          if(item.typeId == this.peticion.typeIdAfiliado){
+            this.usuario.celular = item.celular;
+          }
+        }
+      });
+    });
+
+    
+  }
   codigoExiste(){
 
     if( this.codigo == this.peticion.codigo){
@@ -109,17 +123,19 @@ export class DetallesServicioPage implements OnInit {
     this.peticion.id = this.id
     this.peticion.typeIdAfiliado = localStorage.getItem('localId');
     this.peticion.estado = 'finalizado';
-      
+
+    this.fechaInicio = new Date(localStorage.getItem('InicioTrabajo'));
+    this.fechaFinal = new Date();
+
+    // Total es la suma de horas en minutos, minutos y minuto en segundos
+    this.total =  (((this.fechaFinal.getHours() - this.fechaInicio.getHours()) * 60) +
+                  (this.fechaFinal.getMinutes() - this.fechaInicio.getMinutes()) +
+                  ((this.fechaFinal.getSeconds() - this.fechaInicio.getSeconds())/60))*this.servicio.precioMinuto;
+    
+    this.peticion.comision = this.total * 0.1;
+
     this._peticion.actualizarPeticion( this.peticion ).subscribe( resp=>{
-
-      this.fechaInicio = new Date(localStorage.getItem('InicioTrabajo'));
-      this.fechaFinal = new Date();
-
-      // Total es la suma de horas en minutos, minutos y minuto en segundos
-      this.total =  (((this.fechaFinal.getHours() - this.fechaInicio.getHours()) * 60) +
-                    (this.fechaFinal.getMinutes() - this.fechaInicio.getMinutes()) +
-                    ((this.fechaFinal.getSeconds() - this.fechaInicio.getSeconds())/60))*this.servicio.precioMinuto;
-
+    
       Swal.fire({
         title: 'Finalizar Servicio',
         text: `COBRAR: $${ this.total } Pesos`,
@@ -137,7 +153,8 @@ export class DetallesServicioPage implements OnInit {
           this.presentAlertRadio();
 
           localStorage.removeItem('InicioTrabajo');
-          setTimeout(() => this.router.navigate(['/peticiones']), 1500);
+
+          this.router.navigate(['/peticiones'])
           
           setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
             this.peticion = resp;

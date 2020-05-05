@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { PeticionModel } from '../models/peticiones.model';
+import { UsuarioModel } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,34 @@ export class PeticionesService {
     delete peticionTemp.id;
 
     return this.http.put(`${ this.urlDatabase }/Peticiones/${ peticion.id }.json`, peticionTemp);
-
-
   }
+
+  getUsuarios(){
+    return this.http.get(`${ this.urlDatabase }/Usuario.json`).pipe( map( this.crearArregloUsuario ) );
+  }
+
+  private crearArregloUsuario( servicioObj: object){
+    
+    const servicioArray: UsuarioModel[] = [];
+
+    if( servicioObj === null ){
+      return [];
+    }
+
+    Object.keys( servicioObj ).forEach( key =>{
+
+      const servicio: UsuarioModel = servicioObj[key];
+      servicio.id = key;
+
+      servicioArray.push( servicio );
+    });
+
+    return servicioArray;
+  }
+
+  eliminarPeticion( id: string ){
+    return this.http.delete(`${ this.urlDatabase }/Peticiones/${ id }.json`);
+  }
+
+
 }

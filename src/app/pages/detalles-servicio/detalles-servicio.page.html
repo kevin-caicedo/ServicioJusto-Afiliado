@@ -58,7 +58,9 @@
     </ion-item>
 
   </ion-list>
+  
+  <ion-button shape="round"  fill="outline" color="dark" href="https://wa.me/{{ usuario.celular }}" *ngIf="peticion.estado == 'aceptado'">Comunicate</ion-button>
 
-  <ion-button expand="full" color="danger" (click)="finalizarServicio()">Finalizar Servicio</ion-button>
+  <ion-button expand="full" color="danger"  *ngIf="peticion.estado == 'ejecucion'" (click)="finalizarServicio()">Finalizar Servicio</ion-button>
 
 </ion-content>

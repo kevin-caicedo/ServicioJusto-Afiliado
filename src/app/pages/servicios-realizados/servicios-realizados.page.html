@@ -9,7 +9,14 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-list *ngFor="let servicio of servicioArray; let i = index">
+  <ion-item>
+
+    <ion-icon name="card-outline" slot="start"></ion-icon>
+    <ion-label>Comisión a pagar: ${{ comisionTotal | number }}</ion-label>
+    <ion-button color="primary" (click)="presentAlertPrompt()">Pagar</ion-button>
+  </ion-item>
+
+  <ion-list *ngFor="let servicio of servicioArray; let i = index; let peticion of peticionArray">
     
     <ion-item>
       <ion-avatar slot="start">
@@ -21,7 +28,7 @@
           <ion-icon name="locate-outline"></ion-icon>
           {{ servicio.direccion }}
         </h3>
-        <ion-button color="primary" (click)="mefue( servicio )">
+        <ion-button color="primary" (click)="mefue( servicio, peticion )">
           ¿Como te fue?
         </ion-button>
       </ion-label>
