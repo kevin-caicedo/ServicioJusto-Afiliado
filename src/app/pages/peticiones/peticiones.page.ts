@@ -56,7 +56,7 @@ export class PeticionesPage implements OnInit {
     this.servicioArray.splice(i, 1);
   }
 
-  aceptarServicio( servicio: ServicioModel ){
+  aceptarServicio( servicio: ServicioModel, i: number ){
     Swal.fire({
       title: '¿Está seguro?',
       text: `Está seguro que desea aceptar el servicio`,
@@ -66,6 +66,7 @@ export class PeticionesPage implements OnInit {
     }).then( resp=>{
       if( resp.value ){
         this.router.navigate(['/detalles-servicio', servicio.id]);
+        this.servicioArray.splice(i, 1);
       }
     });
   }

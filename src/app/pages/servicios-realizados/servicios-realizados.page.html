@@ -16,7 +16,7 @@
     <ion-button color="primary" (click)="presentAlertPrompt()">Pagar</ion-button>
   </ion-item>
 
-  <ion-list *ngFor="let servicio of servicioArray; let i = index; let peticion of peticionArray">
+  <ion-list *ngFor="let servicio of servicioArray; let i = index">
     
     <ion-item>
       <ion-avatar slot="start">
@@ -28,7 +28,7 @@
           <ion-icon name="locate-outline"></ion-icon>
           {{ servicio.direccion }}
         </h3>
-        <ion-button color="primary" (click)="mefue( servicio, peticion )">
+        <ion-button color="primary" (click)="mefue( servicio )">
           ¿Como te fue?
         </ion-button>
       </ion-label>

@@ -12,5 +12,6 @@ export class ServicioModel {
     }
 
     direccion: string;
+    idPeticion: string;
 
 }

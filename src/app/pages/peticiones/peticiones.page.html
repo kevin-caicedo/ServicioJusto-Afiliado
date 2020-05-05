@@ -31,7 +31,7 @@
           {{ servicio.direccion }}
         </h3>
         <!-- [routerLink]="[ '/detalles-servicio', servicio.id ]"  -->
-        <ion-button color="primary" (click)="aceptarServicio( servicio )">
+        <ion-button color="primary" (click)="aceptarServicio( servicio, i )">
           Aceptar
         </ion-button>
         <ion-button color="danger" (click)="borrarElemento( i )">

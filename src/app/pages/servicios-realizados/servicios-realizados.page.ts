@@ -4,6 +4,8 @@ import { PeticionesService } from '../../services/peticiones.service';
 import { PeticionModel } from '../../models/peticiones.model';
 import { AlertController } from '@ionic/angular';
 import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
+import { PqrsModel } from '../../models/pqrs.model';
+import { PqrsService } from '../../services/pqrs.service';
 
 @Component({
   selector: 'app-servicios-realizados',
@@ -13,13 +15,15 @@ import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a 
 export class ServiciosRealizadosPage implements OnInit {
 
   servicio: ServicioModel = new ServicioModel();
+  servicioPeticion: ServicioModel = new ServicioModel();
   servicioArray: ServicioModel[] = [];
   peticionArray: PeticionModel[] = [];
   peticionPagarArray: PeticionModel[] = [];
   comisionTotal: number;
 
   constructor(  private _peticion: PeticionesService,
-                public alertController: AlertController ) { }
+                public alertController: AlertController,
+                private _pqrs: PqrsService ) { }
 
   ngOnInit() {
 
@@ -33,7 +37,9 @@ export class ServiciosRealizadosPage implements OnInit {
             this.servicio.id = item.idServicio;
             this.servicio.direccion = item.direccion;
             this.peticionPagarArray.push( item );
-            this.servicioArray.push( resp );
+            this.servicioPeticion = resp;
+            this.servicioPeticion.idPeticion = item.id
+            this.servicioArray.push( this.servicioPeticion );
           })
           this.comisionTotal = this.comisionTotal + item.comision;
         }
@@ -43,59 +49,16 @@ export class ServiciosRealizadosPage implements OnInit {
 
   }
 
-  mefue( servicio: ServicioModel, peticion: ServicioModel ){
-  }
+  pqrsEnvio: PqrsModel = new PqrsModel();
 
-  async presentAlertPrompt() {
+  async mefue( servicio: ServicioModel ) {
     const alert = await this.alertController.create({
-      header: 'Prompt!',
+      header: 'Escribe tu mensaje!',
       inputs: [
         {
-          name: 'name1',
-          type: 'text',
-          placeholder: 'Placeholder 1'
-        },
-        {
-          name: 'name2',
-          type: 'text',
-          id: 'name2-id',
-          value: 'hello',
-          placeholder: 'Placeholder 2'
-        },
-        // multiline input.
-        {
-          name: 'paragraph',
-          id: 'paragraph',
+          name: 'mensaje',
           type: 'textarea',
-          placeholder: 'Placeholder 3'
-        },
-        {
-          name: 'name3',
-          value: 'http://ionicframework.com',
-          type: 'url',
-          placeholder: 'Favorite site ever'
-        },
-        // input date with min & max
-        {
-          name: 'name4',
-          type: 'date',
-          min: '2017-03-01',
-          max: '2018-01-12'
-        },
-        // input date without min nor max
-        {
-          name: 'name5',
-          type: 'date'
-        },
-        {
-          name: 'name6',
-          type: 'number',
-          min: -5,
-          max: 10
-        },
-        {
-          name: 'name7',
-          type: 'number'
+          placeholder: 'Escribe el mensaje para el usuario'
         }
       ],
       buttons: [
@@ -103,9 +66,56 @@ export class ServiciosRealizadosPage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
+        }, {
+          text: 'Ok',
+          handler: ( blah ) => {
+            this.pqrsEnvio.idPeticion = servicio.idPeticion;
+            this.pqrsEnvio.mensaje = blah.mensaje;
+            this.pqrsEnvio.quien = 'afiliado';
+            this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
           }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Pagando!',
+      inputs: [
+        {
+          name: 'numeroTarjeta',
+          type: 'number',
+          placeholder: 'Número de Tarjeta',
+          min: 0,
+          max: 16
+        },
+        {
+          name: 'nombreTitular',
+          type: 'textarea',
+          placeholder: 'Nombre del titular'
+        },
+        {
+          name: 'fechaVencimiento',
+          type: 'text',
+          placeholder: 'Fecha vencimiento: mm/yy',
+          min: 0,
+          max: 6
+        },
+        {
+          name: 'codigoSeguridad',
+          type: 'number',
+          placeholder: 'Codigo de seguridad',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
         }, {
           text: 'Ok',
           handler: ( blah ) => {
@@ -118,17 +128,15 @@ export class ServiciosRealizadosPage implements OnInit {
 
     await alert.present();
   }
+  
 
   pagando( blah: any ){
+    console.log(blah);
     for( let item of this.peticionPagarArray ){
-      console.log(item.id);
-
       this._peticion.eliminarPeticion( item.id ).subscribe();
       this.comisionTotal = 0;
     }
     this.servicioArray.splice(0, this.servicioArray.length);
-    //this.peticionPagarArray.splice(0, this.peticionPagarArray.length);
-    
   }
 
 }
