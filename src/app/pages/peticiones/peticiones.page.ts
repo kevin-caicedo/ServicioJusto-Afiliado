@@ -32,7 +32,7 @@ export class PeticionesPage implements OnInit {
           this.peticionesArray = resp;
     
           for( let item of this.peticionesArray ){
-            if( item.typeIdAfiliado == 'Buscando' ){
+            if( item.typeIdAfiliado == 'Buscando' && item.estado == 'finalizado'){
               this._peticion.getServicio( item.idServicio ).subscribe( (resp:ServicioModel)=>{
                 for( let datoAfiliado of this.afiliado.Habilidad ){
                   if( resp['nombreServicio'] == datoAfiliado ){

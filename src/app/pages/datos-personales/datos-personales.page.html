@@ -93,6 +93,15 @@
         <ion-label position="floating">Enlace Foto</ion-label>
         <ion-input  name="foto" [(ngModel)]="afiliado.fotoPerfil" required></ion-input>
       </ion-item>
+    
+      <ion-item>
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        <span 
+                *ngIf="f.submitted && f.controls['password'].errors"
+                class="text-danger">Al menos 6 caracteres</span>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="afiliado.password"  minlength="6" required></ion-input>
+      </ion-item>
 
       <ion-item>
         <ion-icon name="mail-outline" slot="start"></ion-icon>
@@ -103,20 +112,8 @@
         <ion-input type="email" name="email" [(ngModel)]="afiliado.email" required email disabled></ion-input>
       </ion-item>
     
-      <ion-item>
-        <ion-icon name="eye-outline" slot="start"></ion-icon>
-        <span 
-                *ngIf="f.submitted && f.controls['password'].errors"
-                class="text-danger">Al menos 6 caracteres</span>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" name="password" [(ngModel)]="afiliado.password"  minlength="6"  disabled required></ion-input>
-      </ion-item>
-    
       <ion-button expand="block" class="ion-padding" type="submit">Actualizar</ion-button>
     </ion-list>
   </form>
-  
-
-
   
 </ion-content>

@@ -38,6 +38,8 @@ export class DatosPersonalesPage implements OnInit {
     Swal.showLoading();
 
     this.afiliado.id = localStorage.getItem('afiliadoId');
+
+    this.auth.cambiaContrasena( this.afiliado ).subscribe();
     
     this.auth.actualizaPerfil( this.afiliado ).subscribe( resp=>{
       Swal.close();

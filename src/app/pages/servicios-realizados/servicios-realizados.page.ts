@@ -3,7 +3,6 @@ import { ServicioModel } from '../../models/servicio.model';
 import { PeticionesService } from '../../services/peticiones.service';
 import { PeticionModel } from '../../models/peticiones.model';
 import { AlertController } from '@ionic/angular';
-import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 import { PqrsModel } from '../../models/pqrs.model';
 import { PqrsService } from '../../services/pqrs.service';
 

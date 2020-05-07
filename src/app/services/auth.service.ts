@@ -266,6 +266,14 @@ export class AuthService {
     return this.http.post(`${ this.url }:sendOobCode?key=${ this.apikey }`, recupera);
   }
 
+  cambiaContrasena( afiliado: AfiliadoModel ){
 
+    const usuarioTemp = {
+      idToken: localStorage.getItem('token'),
+      password: afiliado.password,
+      returnSecureToken: false
+    }
 
+    return this.http.post(`${ this.url }:update?key=${ this.apikey }`, usuarioTemp);
+  }  
 }
