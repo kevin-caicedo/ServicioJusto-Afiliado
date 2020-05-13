@@ -1,5 +1,7 @@
 {
   "name": "afiliado",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -215,9 +215,10 @@ export class AuthService {
    * @author Kevin Caicedo
    * @param id 
    */
-  getAfiliado( id: string ){
+  getAfiliado( id: string ){    
     return this.http.get(`${ this.urlDatabase }/Afiliado/${ id }.json`);
   }
+
 
   /**
    * Método que permite actualizar perfil
