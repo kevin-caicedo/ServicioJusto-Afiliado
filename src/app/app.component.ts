@@ -42,9 +42,9 @@ export class AppComponent implements OnInit {
           icon: 'paper-plane'
         },
         {
-          title: 'Datos personales',
-          url: 'datos-personales',
-          icon: 'person'
+          title: 'Servicios realizados',
+          url: 'servicios-realizados',
+          icon: 'document-text'
         },
         {
           title: 'Enviar PQRS',
@@ -52,10 +52,10 @@ export class AppComponent implements OnInit {
           icon: 'chatbox'
         },
         {
-          title: 'Servicios realizados',
-          url: 'servicios-realizados',
-          icon: 'document-text'
-        },
+          title: 'Datos personales',
+          url: 'datos-personales',
+          icon: 'person'
+        },        
         {
           title: 'Cerrar cuenta',
           url: 'cerrar-cuenta',

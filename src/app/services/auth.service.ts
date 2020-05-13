@@ -231,6 +231,7 @@ export class AuthService {
     }
 
     delete afiliadoTemp.id;
+    delete afiliadoTemp.password;
 
     return this.http.put(`${ this.urlDatabase }/Afiliado/${ afiliado.id }.json`, afiliadoTemp);
 

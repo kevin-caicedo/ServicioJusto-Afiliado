@@ -11,5 +11,6 @@ export class PeticionModel{
     typeIdUsuario: string;
     calificacionUsuario: number;
     comision: number;
+    ubicacion: string;
 
 }

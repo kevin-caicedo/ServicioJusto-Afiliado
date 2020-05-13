@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { AfiliadoModel } from '../../models/afiliado.model';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { ServicioModel } from '../../models/servicio.model';
+import { PeticionesService } from '../../services/peticiones.service';
 
 @Component({
   selector: 'app-datos-personales',
@@ -12,8 +14,10 @@ import Swal from 'sweetalert2';
 export class DatosPersonalesPage implements OnInit {
 
   afiliado: AfiliadoModel = new AfiliadoModel();
+  servicios: ServicioModel[] = []
 
-  constructor( private auth: AuthService ) { }
+  constructor(  private auth: AuthService,
+                private _peticion: PeticionesService ) { }
 
   ngOnInit() {
 
@@ -22,6 +26,10 @@ export class DatosPersonalesPage implements OnInit {
         this.afiliado = resp
       });
     }
+
+    this._peticion.getServicios().subscribe(resp=>{
+      this.servicios = resp;
+    })
 
 
   }

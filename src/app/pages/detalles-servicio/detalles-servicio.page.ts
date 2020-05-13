@@ -24,6 +24,7 @@ export class DetallesServicioPage implements OnInit {
   usuario: UsuarioModel = new UsuarioModel();
   nuevaDireccion: string;
   codigo: number;
+  ubicacionArray: string[] = [];
 
   constructor(  private activatedRoute: ActivatedRoute,
                 private _peticion: PeticionesService,
@@ -36,6 +37,7 @@ export class DetallesServicioPage implements OnInit {
 
     this._peticion.getPeticion( this.id ).subscribe( (resp: PeticionModel)=>{
       this.peticion = resp;
+      this.ubicacionArray = this.peticion.direccion.split(",");
       this.peticion.id = this.id
       this.peticion.typeIdAfiliado = localStorage.getItem('localId');
       this.peticion.estado = 'aceptado';
@@ -120,56 +122,62 @@ export class DetallesServicioPage implements OnInit {
    * Método para finalizar el servicio
    */
   finalizarServicio(){
-    this.peticion.id = this.id
-    this.peticion.typeIdAfiliado = localStorage.getItem('localId');
-    this.peticion.estado = 'finalizado';
+    if( this.servicio.precioMinuto <= 1000 ){
+      
+      this.fechaInicio = new Date(localStorage.getItem('InicioTrabajo'));
+      this.fechaFinal = new Date();
+      // Total es la suma de horas en minutos, minutos y minuto en segundos
+      this.total =  (((this.fechaFinal.getHours() - this.fechaInicio.getHours()) * 60) +
+                    (this.fechaFinal.getMinutes() - this.fechaInicio.getMinutes()) +
+                    ((this.fechaFinal.getSeconds() - this.fechaInicio.getSeconds())/60))*this.servicio.precioMinuto;
+      
+      this.peticion.comision = this.total * 0.1;
+    }else{
 
-    this.fechaInicio = new Date(localStorage.getItem('InicioTrabajo'));
-    this.fechaFinal = new Date();
+      this.peticion.comision = this.servicio.precioMinuto * 0.1;
+      this.total = this.servicio.precioMinuto;
+      
+    }
 
-    // Total es la suma de horas en minutos, minutos y minuto en segundos
-    this.total =  (((this.fechaFinal.getHours() - this.fechaInicio.getHours()) * 60) +
-                  (this.fechaFinal.getMinutes() - this.fechaInicio.getMinutes()) +
-                  ((this.fechaFinal.getSeconds() - this.fechaInicio.getSeconds())/60))*this.servicio.precioMinuto;
-    
-    this.peticion.comision = this.total * 0.1;
+    Swal.fire({
+      title: 'Finalizar Servicio',
+      text: `COBRAR: $${ this.total } Pesos`,
+      icon: "info",
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then( resp=>{
+      if( resp.value ){
+        Swal.fire({
+          icon: 'success',
+          title: 'Muchas gracias por su LABOR',
+          text: `Gracias!!`
+        });
 
-    this._peticion.actualizarPeticion( this.peticion ).subscribe( resp=>{
-    
-      Swal.fire({
-        title: 'Finalizar Servicio',
-        text: `COBRAR: $${ this.total } Pesos`,
-        icon: "info",
-        showConfirmButton: true,
-        showCancelButton: true
-      }).then( resp=>{
-        if( resp.value ){
-          Swal.fire({
-            icon: 'success',
-            title: 'Muchas gracias por su LABOR',
-            text: `Gracias!!`
+        this.peticion.id = this.id
+        this.peticion.typeIdAfiliado = localStorage.getItem('localId');
+        this.peticion.estado = 'finalizado';
+
+        this._peticion.actualizarPeticion( this.peticion ).subscribe();
+
+        this.presentAlertRadio();
+
+        localStorage.removeItem('InicioTrabajo');
+
+        this.router.navigate(['/peticiones'])
+        
+        setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
+          this.peticion = resp;
+
+          this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe((resp: AfiliadoModel)=>{
+            this.afiliado = resp;
+
+            this.calificando( this.peticion, this.afiliado )
+            
           });
-
-          this.presentAlertRadio();
-
-          localStorage.removeItem('InicioTrabajo');
-
-          this.router.navigate(['/peticiones'])
-          
-          setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
-            this.peticion = resp;
-
-            this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe((resp: AfiliadoModel)=>{
-              this.afiliado = resp;
-
-              this.calificando( this.peticion, this.afiliado )
-              
-            });
-          }), 60000);
-
-        }
-      });
+        }), 60000);        
+      }
     });
+
   }
 
   calificacion: number;
@@ -207,7 +215,7 @@ export class DetallesServicioPage implements OnInit {
 
   async presentAlertRadio() {
     const alert = await this.alertController.create({
-      header: `Calificando a ${ this.afiliado.Nombre } `,
+      header: `Calificando a usuario `,
       inputs: [
         {
           name: 'Pésimo',

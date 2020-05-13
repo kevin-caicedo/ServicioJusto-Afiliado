@@ -77,9 +77,8 @@
         class="text-danger">La habilidad es obligatorio</span>
         <ion-label>Habilidad</ion-label>
         <ion-select value="Cuidado de adulto mayor"  multiple="true" okText="Ok" cancelText="Cancelar" [(ngModel)]="afiliado.Habilidad" name="habilidad" required >
-          <ion-select-option value="Aseo General">Aseo General</ion-select-option>
-          <ion-select-option value="Plomería">Plomería</ion-select-option>
-          <ion-select-option value="Cuidado de adulto mayor">Cuidado de adulto mayor</ion-select-option>
+          <ion-select-option *ngFor="let servicio of servicios">{{ servicio.nombreServicio }}</ion-select-option>
+          
         </ion-select>
       </ion-item>
 
@@ -100,7 +99,7 @@
                 *ngIf="f.submitted && f.controls['password'].errors"
                 class="text-danger">Al menos 6 caracteres</span>
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" name="password" [(ngModel)]="afiliado.password"  minlength="6" required></ion-input>
+        <ion-input type="password" name="password" [(ngModel)]="afiliado.password" ></ion-input>
       </ion-item>
 
       <ion-item>

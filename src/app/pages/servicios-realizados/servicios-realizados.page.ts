@@ -5,6 +5,8 @@ import { PeticionModel } from '../../models/peticiones.model';
 import { AlertController } from '@ionic/angular';
 import { PqrsModel } from '../../models/pqrs.model';
 import { PqrsService } from '../../services/pqrs.service';
+import { AuthService } from '../../services/auth.service';
+import { AfiliadoModel } from '../../models/afiliado.model';
 
 @Component({
   selector: 'app-servicios-realizados',
@@ -18,14 +20,15 @@ export class ServiciosRealizadosPage implements OnInit {
   servicioArray: ServicioModel[] = [];
   peticionArray: PeticionModel[] = [];
   peticionPagarArray: PeticionModel[] = [];
+  afiliado: AfiliadoModel = new AfiliadoModel();
   comisionTotal: number;
 
   constructor(  private _peticion: PeticionesService,
                 public alertController: AlertController,
-                private _pqrs: PqrsService ) { }
+                private _pqrs: PqrsService,
+                private _auth: AuthService ) { }
 
   ngOnInit() {
-
     this.comisionTotal = 0;
     this._peticion.getPeticiones().subscribe( resp=>{
       this.peticionArray = resp;
@@ -34,13 +37,16 @@ export class ServiciosRealizadosPage implements OnInit {
           this._peticion.getServicio( item.idServicio ).subscribe( (resp: ServicioModel)=>{
             this.servicio = resp;
             this.servicio.id = item.idServicio;
-            this.servicio.direccion = item.direccion;
+            this.servicio.direccion = item.ubicacion;
             this.peticionPagarArray.push( item );
             this.servicioPeticion = resp;
             this.servicioPeticion.idPeticion = item.id
             this.servicioArray.push( this.servicioPeticion );
           })
-          this.comisionTotal = this.comisionTotal + item.comision;
+          if(!isNaN(item.comision) && typeof item.comision !== "undefined")
+            this.comisionTotal = this.comisionTotal + item.comision;
+            console.log(this.comisionTotal + " comision total");
+            console.log(item.comision + " comision");
         }
       }
     });
@@ -68,10 +74,16 @@ export class ServiciosRealizadosPage implements OnInit {
         }, {
           text: 'Ok',
           handler: ( blah ) => {
-            this.pqrsEnvio.idPeticion = servicio.idPeticion;
-            this.pqrsEnvio.mensaje = blah.mensaje;
-            this.pqrsEnvio.quien = 'afiliado';
-            this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
+
+            this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe((resp:AfiliadoModel)=>{
+              this.afiliado = resp;
+              this.pqrsEnvio.idPeticion = servicio.idPeticion;
+              this.pqrsEnvio.mensaje = blah.mensaje;
+              this.pqrsEnvio.quien = 'afiliado';
+              this.pqrsEnvio.numero = this.afiliado.Telefono;
+              this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
+            })
+            
           }
         }
       ]

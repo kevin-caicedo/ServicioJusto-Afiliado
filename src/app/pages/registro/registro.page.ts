@@ -4,6 +4,8 @@ import { AfiliadoModel } from '../../models/afiliado.model';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { PeticionesService } from '../../services/peticiones.service';
+import { ServicioModel } from '../../models/servicio.model';
 
 @Component({
   selector: 'app-registro',
@@ -18,12 +20,19 @@ export class RegistroPage implements OnInit {
   };
 
   afiliado: AfiliadoModel;
+  servicios: ServicioModel[] = [];
+
   constructor(  private registro: AuthService,
-                private router: Router ) {
+                private router: Router,
+                private _peticion: PeticionesService ) {
     this.afiliado = new AfiliadoModel();
   }
 
   ngOnInit() {
+
+    this._peticion.getServicios().subscribe(resp=>{
+      this.servicios = resp;
+    });
   }
 
   onSubmit( form: NgForm ){

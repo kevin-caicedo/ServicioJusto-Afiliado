@@ -27,18 +27,19 @@ export class PeticionesPage implements OnInit {
     this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe( (resp:AfiliadoModel)=>{
       this.afiliado = resp
 
+      
       if( this.afiliado.estado ){
         this._peticion.getPeticiones().subscribe( resp=>{
           this.peticionesArray = resp;
-    
           for( let item of this.peticionesArray ){
-            if( item.typeIdAfiliado == 'Buscando' && item.estado == 'finalizado'){
-              this._peticion.getServicio( item.idServicio ).subscribe( (resp:ServicioModel)=>{
+            if( item.typeIdAfiliado == 'Buscando' && item.estado == 'solicitado'){
+              this._peticion.getServicio( item.idServicio ).subscribe( (resp:ServicioModel)=>{                  
                 for( let datoAfiliado of this.afiliado.Habilidad ){
+                  
                   if( resp['nombreServicio'] == datoAfiliado ){
                     this.servicio = resp;
                     this.servicio.id = item.id;
-                    this.servicio.direccion = item.direccion;
+                    this.servicio.direccion = item.ubicacion;
                     this.servicioArray.push( resp );
                   }
                 }
