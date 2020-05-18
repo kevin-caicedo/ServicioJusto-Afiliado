@@ -102,15 +102,6 @@
         <ion-input type="password" name="password" [(ngModel)]="afiliado.password" ></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
-        <span 
-        *ngIf="f.submitted && f.controls['email'].errors"
-        class="text-danger">El correo es obligatorio</span>
-        <ion-label position="floating">Correo</ion-label>
-        <ion-input type="email" name="email" [(ngModel)]="afiliado.email" required email disabled></ion-input>
-      </ion-item>
-    
       <ion-button expand="block" class="ion-padding" type="submit">Actualizar</ion-button>
     </ion-list>
   </form>

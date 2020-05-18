@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
           icon: 'person'
         },        
         {
-          title: 'Cerrar cuenta',
+          title: 'Eliminar cuenta',
           url: 'cerrar-cuenta',
           icon: 'trash'
         },   
@@ -81,6 +81,11 @@ export class AppComponent implements OnInit {
         }
       ]
     }
+
+    if( this.auth.estaAutenticado() ){
+      this.router.navigateByUrl('/peticiones');
+    }
+
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());

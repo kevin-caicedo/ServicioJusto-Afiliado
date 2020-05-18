@@ -38,7 +38,7 @@
     <ion-item *ngIf="servicio.precioMinuto <= 1000">
       <ion-icon name="wallet-outline" slot="end" ></ion-icon>
       <ion-label class="ion-text-wrap">
-        <h2>Total</h2>
+        <h2>Total aproximado</h2>
         <p>{{ servicio.precioMinuto * 120 }}</p>
       </ion-label>
     </ion-item>
@@ -59,10 +59,10 @@
 
   </ion-list>
   
-  <ion-button shape="round"  fill="outline" color="dark" href="https://wa.me/{{ usuario.celular }}" *ngIf="peticion.estado == 'aceptado'">Comunicate</ion-button>
+  <ion-button shape="round"  fill="outline" color="dark" href="https://wa.me/57{{ usuario.celular }}" *ngIf="peticion.estado == 'aceptado'">Comunicate</ion-button>
 
   <ion-button expand="full" color="danger"  *ngIf="peticion.estado == 'ejecucion'" (click)="finalizarServicio()">Finalizar Servicio</ion-button>
 
-  <ion-button expand="full" color="primary" *ngIf="peticion.estado == 'aceptado'" href="https://maps.google.com/?q={{ ubicacionArray[0] }},{{ ubicacionArray[1] }}"> Como llegó? </ion-button>
+  <ion-button expand="full" color="primary" *ngIf="peticion.estado == 'aceptado'" href="https://maps.google.com/?q={{ ubicacionArray[0] }},{{ ubicacionArray[1] }}"> ¿Cómo llego? </ion-button>
   
 </ion-content>

@@ -46,7 +46,13 @@ export class InicioSesionPage implements OnInit {
 
         this.auth.getUnAfiliado();
         this.router.navigateByUrl('/peticiones');
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => location.reload(), 4000);
+
+        Swal.fire(
+          'Bienvenido!',
+          'Ok para continuar!',
+          'success'
+        );
 
         
     }, (err)=>{

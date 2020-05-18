@@ -221,8 +221,7 @@ export class DetallesServicioPage implements OnInit {
           name: 'Pésimo',
           type: 'radio',
           label: 'Pésimo',
-          value: 1,
-          checked: true
+          value: 1          
         },
         {
           name: 'Malo',
@@ -246,7 +245,8 @@ export class DetallesServicioPage implements OnInit {
           name: 'Excelente',
           type: 'radio',
           label: 'Excelente',
-          value: 5
+          value: 5,
+          checked: true
         }
       ],
       buttons: [

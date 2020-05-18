@@ -19,7 +19,7 @@
         *ngIf="f.submitted && f.controls['cedula'].errors"
         class="text-danger">La cédula es obligatorio</span>
         <ion-label position="floating">Cedula</ion-label>
-        <ion-input  name="cedula" [(ngModel)]="afiliado.Cedula" minlength="9" required></ion-input>
+        <ion-input  name="cedula" [(ngModel)]="afiliado.Cedula" minlength="6" required></ion-input>
       </ion-item>
 
 
@@ -47,7 +47,7 @@
         *ngIf="f.submitted && f.controls['celular'].errors"
         class="text-danger">Al menos 10 caracteres</span>
         <ion-label position="floating">Celular</ion-label>
-        <ion-input name="celular" [(ngModel)]="afiliado.Telefono"  minlength="10" required></ion-input>
+        <ion-input type="number" name="celular" [(ngModel)]="afiliado.Telefono"  minlength="10" required></ion-input>
       </ion-item>
     
       <ion-item>

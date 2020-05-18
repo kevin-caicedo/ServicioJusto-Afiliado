@@ -45,8 +45,6 @@ export class ServiciosRealizadosPage implements OnInit {
           })
           if(!isNaN(item.comision) && typeof item.comision !== "undefined")
             this.comisionTotal = this.comisionTotal + item.comision;
-            console.log(this.comisionTotal + " comision total");
-            console.log(item.comision + " comision");
         }
       }
     });

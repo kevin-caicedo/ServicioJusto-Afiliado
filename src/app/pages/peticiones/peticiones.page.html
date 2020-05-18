@@ -17,6 +17,16 @@
       refreshingText="Recargando...">
     </ion-refresher-content>
   </ion-refresher>
+
+  <ion-card *ngIf="!afiliado.estado">
+    <img src="https://static.wixstatic.com/media/ec379b_4f2c63c74a3f498fa30faeb89db5761e~mv2.gif" />
+    <ion-card-header>
+      <ion-card-title>Espera</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Su registro esta en revisión por los administradores, en caso de ser aceptado, estos se pondrán en contacto con usted.
+    </ion-card-content>
+  </ion-card>
   
   <ion-list *ngFor="let servicio of servicioArray; let i = index">
     
