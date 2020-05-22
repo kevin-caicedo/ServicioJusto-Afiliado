@@ -8,5 +8,6 @@ export class PqrsModel{
     tipo: string;
     mensaje: string;
     quien: string;
-    numero: string;
+    nombreAfiliado: string;
+    nombreUsuario: string;
 }

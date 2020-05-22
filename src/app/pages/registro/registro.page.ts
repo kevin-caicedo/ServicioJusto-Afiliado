@@ -53,6 +53,7 @@ export class RegistroPage implements OnInit {
 
     this.registro.nuevoAfiliado( this.afiliado ).subscribe( resp =>{
       this.afiliado.typeIdAfiliado = resp['localId'];
+      this.registro.verificarCorreo().subscribe();
       this.registro.nuevoAfiliadoResto( this.afiliado ).subscribe( resp =>{
         this.afiliado.id = resp['id'];
       }, err=>{

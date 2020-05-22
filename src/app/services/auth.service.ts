@@ -277,5 +277,28 @@ export class AuthService {
     }
 
     return this.http.post(`${ this.url }:update?key=${ this.apikey }`, usuarioTemp);
-  }  
+  }
+  
+  /**
+   * Método para verificar si el correo fue verificado
+   */
+  verificarCorreo(){
+
+    const verificaData = {
+      requestType: "VERIFY_EMAIL",
+      idToken: this.leerToken()
+    };
+    return this.http.post(`${ this.url }:sendOobCode?key=${ this.apikey }`, verificaData);
+
+  }
+
+  /**
+   * Método para verificar traer los datos del usuario
+   */
+  obtenerDatosFirebase(){
+    const token = {
+      idToken: this.leerToken()
+    };
+    return this.http.post(`${ this.url }:lookup?key=${ this.apikey }`, token);
+  }
 }

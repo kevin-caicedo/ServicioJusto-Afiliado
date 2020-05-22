@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/peticiones"></ion-back-button>
+      <ion-back-button defaultHref="/peticiones" (click)="terminarServicio()"></ion-back-button>
     </ion-buttons>
     <ion-title>Detalles del servicio</ion-title>
   </ion-toolbar>
@@ -31,7 +31,7 @@
       <ion-icon name="cash-outline" slot="end"></ion-icon>
       <ion-label class="ion-text-wrap">
         <h2>Método de pago</h2>
-        <p>efectivo o tarjeta</p>
+        <p>{{ peticion.pago }}</p>
       </ion-label>
     </ion-item>
 
@@ -51,10 +51,10 @@
       </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="peticion.estado == 'aceptado'">
       <ion-button slot="end" (click)="codigoExiste()">Aceptar</ion-button>
       <ion-label position="floating">Ingresa código</ion-label>
-      <ion-input [(ngModel)]="codigo"></ion-input>
+      <ion-input [(ngModel)]="codigo" type="number"></ion-input>
     </ion-item>
 
   </ion-list>

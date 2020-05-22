@@ -35,14 +35,20 @@ export class DetallesServicioPage implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
 
+    localStorage.setItem('idPeticion', this.id);
+
     this._peticion.getPeticion( this.id ).subscribe( (resp: PeticionModel)=>{
       this.peticion = resp;
-      this.ubicacionArray = this.peticion.direccion.split(",");
-      this.peticion.id = this.id
-      this.peticion.typeIdAfiliado = localStorage.getItem('localId');
-      this.peticion.estado = 'aceptado';
-      
-      this._peticion.actualizarPeticion( this.peticion ).subscribe();
+
+      if( this.peticion.estado === "solicitado" ){
+        if(typeof this.peticion.direccion !== "undefined"){
+          this.ubicacionArray = this.peticion.direccion.split(",");  
+        }
+        this.peticion.id = this.id
+        this.peticion.typeIdAfiliado = localStorage.getItem('localId');
+        this.peticion.estado = 'aceptado';
+        this._peticion.actualizarPeticion( this.peticion ).subscribe();
+      }
 
       this._peticion.getServicio( this.peticion.idServicio ).subscribe( (resp: ServicioModel)=>{
         this.servicio = resp
@@ -58,9 +64,20 @@ export class DetallesServicioPage implements OnInit {
         }
       });
     });
-
-    
   }
+
+  terminarServicio(){
+    this._peticion.getPeticion( this.peticion.id ).subscribe(resp=>{
+
+      if( resp['estado'] === "finalizado"){
+        localStorage.removeItem('idPeticion');
+        location.reload();
+      };
+      location.reload();
+    })
+  }
+
+
   codigoExiste(){
 
     if( this.codigo == this.peticion.codigo){
@@ -130,6 +147,9 @@ export class DetallesServicioPage implements OnInit {
       this.total =  (((this.fechaFinal.getHours() - this.fechaInicio.getHours()) * 60) +
                     (this.fechaFinal.getMinutes() - this.fechaInicio.getMinutes()) +
                     ((this.fechaFinal.getSeconds() - this.fechaInicio.getSeconds())/60))*this.servicio.precioMinuto;
+
+      this.total =  (Math.ceil(this.total / 50))*50;
+      
       
       this.peticion.comision = this.total * 0.1;
     }else{
@@ -164,6 +184,8 @@ export class DetallesServicioPage implements OnInit {
         localStorage.removeItem('InicioTrabajo');
 
         this.router.navigate(['/peticiones'])
+
+        setTimeout(() => location.reload(), 15000)
         
         setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
           this.peticion = resp;
@@ -174,9 +196,12 @@ export class DetallesServicioPage implements OnInit {
             this.calificando( this.peticion, this.afiliado )
             
           });
-        }), 60000);        
+        }), 60000);   
+        localStorage.removeItem('idPeticion');     
       }
     });
+
+   
 
   }
 

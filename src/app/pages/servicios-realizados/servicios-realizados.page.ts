@@ -78,10 +78,20 @@ export class ServiciosRealizadosPage implements OnInit {
               this.pqrsEnvio.idPeticion = servicio.idPeticion;
               this.pqrsEnvio.mensaje = blah.mensaje;
               this.pqrsEnvio.quien = 'afiliado';
-              this.pqrsEnvio.numero = this.afiliado.Telefono;
-              this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
+              this.pqrsEnvio.nombreAfiliado = this.afiliado.Nombre + " " + this.afiliado.Apellido;
+
+              this._peticion.getUsuarios().subscribe(resp=>{
+                this._peticion.getPeticion( servicio.idPeticion ).subscribe(peticion=>{
+                  for(let usuario of resp){
+                    if( usuario.typeId == peticion['typeIdUsuario'] ){
+                      this.pqrsEnvio.nombreUsuario = usuario.nombre + " " + usuario.apellido;
+                      this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
+                      return;
+                    }
+                  }
+                })
+              })
             })
-            
           }
         }
       ]
