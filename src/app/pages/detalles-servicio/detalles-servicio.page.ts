@@ -58,7 +58,7 @@ export class DetallesServicioPage implements OnInit {
 
         this.usuarioArray = resp;
         for( let item of this.usuarioArray ){
-          if(item.typeId == this.peticion.typeIdAfiliado){
+          if(item.typeId === this.peticion.typeIdUsuario){
             this.usuario.celular = item.celular;
           }
         }

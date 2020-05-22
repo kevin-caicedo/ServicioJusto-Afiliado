@@ -28,7 +28,7 @@
         *ngIf="f.submitted && f.controls['nombre'].errors"
         class="text-danger">El nombre es obligatorio</span>
         <ion-label position="floating">Nombre</ion-label>
-        <ion-input  name="nombre" [(ngModel)]="afiliado.Nombre" required></ion-input>
+        <ion-input  name="nombre" [(ngModel)]="afiliado.Nombre" minlength="2" required></ion-input>
       </ion-item>
     
       <ion-item>
@@ -37,7 +37,7 @@
         *ngIf="f.submitted && f.controls['apellido'].errors"
         class="text-danger">El apellido es obligatorio</span>
         <ion-label position="floating">Apellido</ion-label>
-        <ion-input  name="apellido" [(ngModel)]="afiliado.Apellido" required></ion-input>
+        <ion-input  name="apellido" [(ngModel)]="afiliado.Apellido" minlength="2" required></ion-input>
       </ion-item>
     
       <ion-item>
