@@ -13,6 +13,7 @@ export class PeticionModel{
     comision: number;
     ubicacion: string;
     pago: string;
+    precio: number;
 
 
 }

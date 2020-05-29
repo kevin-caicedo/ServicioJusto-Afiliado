@@ -176,6 +176,7 @@ export class DetallesServicioPage implements OnInit {
         this.peticion.id = this.id
         this.peticion.typeIdAfiliado = localStorage.getItem('localId');
         this.peticion.estado = 'finalizado';
+        this.peticion.precio = this.total;
 
         this._peticion.actualizarPeticion( this.peticion ).subscribe();
 
@@ -185,7 +186,7 @@ export class DetallesServicioPage implements OnInit {
 
         this.router.navigate(['/peticiones'])
 
-        setTimeout(() => location.reload(), 15000)
+        // setTimeout(() => location.reload(), 15000)
         
         setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
           this.peticion = resp;
@@ -196,7 +197,7 @@ export class DetallesServicioPage implements OnInit {
             this.calificando( this.peticion, this.afiliado )
             
           });
-        }), 60000);   
+        }), 30000);   
         localStorage.removeItem('idPeticion');     
       }
     });
@@ -237,6 +238,8 @@ export class DetallesServicioPage implements OnInit {
 
     }
   }
+
+  peticioT: PeticionModel;
 
   async presentAlertRadio() {
     const alert = await this.alertController.create({
@@ -282,26 +285,34 @@ export class DetallesServicioPage implements OnInit {
         }, {
           text: 'Ok',
           handler: ( valor ) => {
-            this.peticion.calificacionUsuario = valor;
-            this._peticion.actualizarPeticion( this.peticion ).subscribe((resp: PeticionModel)=>{
+            // this.peticion.calificacionUsuario = valor;
 
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              
-              Toast.fire({
-                icon: 'success',
-                title: 'Tu calificacion ha sido guardada'
-              })
-            });
+            this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
+              this.peticioT = resp;
+              this.peticioT.id = this.peticion.id;
+
+              this.peticioT.calificacionUsuario = valor;
+
+              this._peticion.actualizarPeticion( this.peticioT ).subscribe((resp: PeticionModel)=>{
+
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+                
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Tu calificacion ha sido guardada'
+                })
+              });    
+            })
           }
         }
       ]

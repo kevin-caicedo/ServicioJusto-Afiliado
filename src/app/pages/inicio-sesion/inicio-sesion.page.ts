@@ -56,10 +56,18 @@ export class InicioSesionPage implements OnInit {
 
         
     }, (err)=>{
+
+      let respuesta: string;
+      if(err.error.error.message === 'EMAIL_NOT_FOUND'){
+        respuesta = 'Debes registrarte primero'
+      }else if( err.error.error.message === 'INVALID_PASSWORD' ){
+        respuesta = 'Contraseña inválida'
+      }
+
       Swal.fire({
         icon: 'error',
         title: 'Error al autenticar',
-        text: err.error.error.message
+        text: respuesta
       });
     })
   }
