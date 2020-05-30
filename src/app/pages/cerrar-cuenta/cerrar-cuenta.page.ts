@@ -28,30 +28,40 @@ export class CerrarCuentaPage implements OnInit {
 
       if( resp.value ){
 
-        this.auth.eliminarCuentaCorreo( ).subscribe( );
+        if(!localStorage.getItem('idPeticion')){
 
-        this.auth.eliminarCuentaDatos( ).subscribe();
+          this.auth.eliminarCuentaCorreo( ).subscribe( );
 
-        this.auth.logout();
+          this.auth.eliminarCuentaDatos( ).subscribe();
+  
+          this.auth.logout();
+  
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          
+          Toast.fire({
+            icon: 'success',
+            title: `se eliminó correctamente`
+          });
+  
+          this.router.navigate(['registro']);
 
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        });
-        
-        Toast.fire({
-          icon: 'success',
-          title: `se eliminó correctamente`
-        });
-
-        this.router.navigate(['registro']);
+        }else{
+          Swal.fire(
+            'Atención!',
+            'No puede eliminar su cuenta, servicio en desarrollo!',
+            'warning'
+          )
+        }
       }
     });
     

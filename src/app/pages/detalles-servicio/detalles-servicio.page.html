@@ -38,8 +38,8 @@
     <ion-item *ngIf="servicio.precioMinuto <= 1000">
       <ion-icon name="wallet-outline" slot="end" ></ion-icon>
       <ion-label class="ion-text-wrap">
-        <h2>Total aproximado</h2>
-        <p>{{ servicio.precioMinuto * 120 }}</p>
+        <h2>Precio/hora</h2>
+        <p>{{ servicio.precioMinuto * 60 }}</p>
       </ion-label>
     </ion-item>
 

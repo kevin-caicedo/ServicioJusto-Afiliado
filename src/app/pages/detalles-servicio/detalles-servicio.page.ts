@@ -188,7 +188,7 @@ export class DetallesServicioPage implements OnInit {
 
         // setTimeout(() => location.reload(), 15000)
         
-        setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
+       /*  setTimeout(() => this._peticion.getPeticion( this.peticion.id ).subscribe((resp: PeticionModel)=>{
           this.peticion = resp;
 
           this._auth.getAfiliado( localStorage.getItem('afiliadoId')).subscribe((resp: AfiliadoModel)=>{
@@ -196,8 +196,10 @@ export class DetallesServicioPage implements OnInit {
 
             this.calificando( this.peticion, this.afiliado )
             
+            
           });
-        }), 30000);   
+          location.reload();
+        }), 30000);   */ 
         localStorage.removeItem('idPeticion');     
       }
     });
