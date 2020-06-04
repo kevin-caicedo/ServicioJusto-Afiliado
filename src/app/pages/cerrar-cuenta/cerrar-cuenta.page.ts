@@ -31,11 +31,14 @@ export class CerrarCuentaPage implements OnInit {
         if(!localStorage.getItem('idPeticion')){
 
           this.auth.eliminarCuentaCorreo( ).subscribe( );
-
           this.auth.eliminarCuentaDatos( ).subscribe();
+          this.router.navigate(['registro']);
   
-          this.auth.logout();
-  
+          setTimeout(() => {
+            this.auth.logout();
+            location.reload();
+          }, 1500)
+          
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -53,7 +56,6 @@ export class CerrarCuentaPage implements OnInit {
             title: `se eliminó correctamente`
           });
   
-          this.router.navigate(['registro']);
 
         }else{
           Swal.fire(
