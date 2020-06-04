@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { ServicioModel } from '../../models/servicio.model';
 import { PeticionesService } from '../../services/peticiones.service';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-datos-personales',
@@ -17,7 +19,8 @@ export class DatosPersonalesPage implements OnInit {
   servicios: ServicioModel[] = []
 
   constructor(  private auth: AuthService,
-                private _peticion: PeticionesService ) { }
+                private _peticion: PeticionesService,
+                public alertController: AlertController ) { }
 
   ngOnInit() {
 
@@ -47,7 +50,7 @@ export class DatosPersonalesPage implements OnInit {
 
     this.afiliado.id = localStorage.getItem('afiliadoId');
 
-    this.auth.cambiaContrasena( this.afiliado ).subscribe();
+    this.auth.cambiaContrasena( this.afiliado ).subscribe();  
     
     this.auth.actualizaPerfil( this.afiliado ).subscribe( resp=>{
       Swal.close();
@@ -68,6 +71,20 @@ export class DatosPersonalesPage implements OnInit {
         title: `${ this.afiliado.Nombre } se actualizó correctamente`
       })
     } );
+  }
+
+  
+  async informacion() {
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Atención',
+      subHeader: 'Habilidad',
+      message: 'Si desea agregar una habilidad, debes enviar una petición en la sección de PQRS.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }

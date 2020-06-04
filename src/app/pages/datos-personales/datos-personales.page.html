@@ -70,17 +70,20 @@
                       ></ion-datetime>
       </ion-item>
   
-      <ion-item>
-        <ion-icon name="construct-outline" slot="start"></ion-icon>
-        <span 
-        *ngIf="f.submitted && f.controls['habilidad'].errors"
-        class="text-danger">La habilidad es obligatorio</span>
-        <ion-label>Habilidad</ion-label>
-        <ion-select value="Cuidado de adulto mayor"  multiple="true" okText="Ok" cancelText="Cancelar" [(ngModel)]="afiliado.Habilidad" name="habilidad" required >
-          <ion-select-option *ngFor="let servicio of servicios">{{ servicio.nombreServicio }}</ion-select-option>
-          
-        </ion-select>
-      </ion-item>
+      <div (click)="informacion()">
+        <ion-item>
+          <ion-icon name="construct-outline" slot="start"></ion-icon>
+          <span 
+          *ngIf="f.submitted && f.controls['habilidad'].errors"
+          class="text-danger">La habilidad es obligatorio</span>
+          <ion-label>Habilidad</ion-label>
+          <ion-select value="Cuidado de adulto mayor"  multiple="true" okText="Ok" cancelText="Cancelar" [(ngModel)]="afiliado.Habilidad" name="habilidad" required>
+            <ion-select-option *ngFor="let servicio of servicios" disabled>{{ servicio.nombreServicio }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </div>
+      
 
       <ion-item>
         <ion-avatar slot="start">
